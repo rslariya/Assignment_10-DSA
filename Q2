@@ -1,0 +1,39 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+    int vertices;
+    cout << "enter number of vertices: ";
+    cin >> vertices;
+
+    int matrix[20][20];
+    cout << "enter adjacency matrix:\n";
+    for (int i = 0; i < vertices; i++)
+        for (int j = 0; j < vertices; j++)
+            cin >> matrix[i][j];
+
+    int startVertex;
+    cout << "enter start vertex: ";
+    cin >> startVertex;
+
+    int visited[20] = {0};
+    queue<int> q;
+    q.push(startVertex);
+    visited[startVertex] = 1;
+
+    cout << "BFS: ";
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+        cout << current << " ";
+
+        for (int neighbor = 0; neighbor < vertices; neighbor++) {
+            if (matrix[current][neighbor] == 1 && visited[neighbor] == 0) {
+                visited[neighbor] = 1;
+                q.push(neighbor);
+            }
+        }
+    }
+    return 0;
+}
