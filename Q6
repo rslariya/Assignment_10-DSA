@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int vertices, source;
+    cout << "enter number of vertices: ";
+    cin >> vertices;
+
+    int weight[20][20];
+    cout << "enter cost matrix (999 for no edge):\n";
+    for (int i = 0; i < vertices; i++)
+        for (int j = 0; j < vertices; j++)
+            cin >> weight[i][j];
+
+    cout << "enter start vertex: ";
+    cin >> source;
+
+    int distance[20], processed[20] = {0};
+
+    for (int i = 0; i < vertices; i++)
+        distance[i] = weight[source][i];
+
+    processed[source] = 1;
+    distance[source] = 0;
+
+    for (int count = 0; count < vertices - 1; count++) {
+        int minDist = 999, current = -1;
+
+        for (int i = 0; i < vertices; i++)
+            if (!processed[i] && distance[i] < minDist) {
+                minDist = distance[i];
+                current = i;
+            }
+
+        processed[current] = 1;
+
+        for (int v = 0; v < vertices; v++)
+            if (!processed[v] && distance[current] + weight[current][v] < distance[v])
+                distance[v] = distance[current] + weight[current][v];
+    }
+
+    cout << "shortest distances:\n";
+    for (int i = 0; i < vertices; i++)
+        cout << source << " -> " << i << " = " << distance[i] << endl;
+
+    return 0;
+}
