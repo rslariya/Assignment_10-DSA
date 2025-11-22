@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+int vertices, graph[20][20], explored[20];
+
+void traverse(int node) {
+    cout << node << " ";
+    explored[node] = 1;
+
+    for (int i = 0; i < vertices; i++) {
+        if (graph[node][i] == 1 && explored[i] == 0)
+            traverse(i);
+    }
+}
+
+int main() {
+    cout << "enter number of vertices: ";
+    cin >> vertices;
+
+    cout << "enter adjacency matrix:\n";
+    for (int i = 0; i < vertices; i++)
+        for (int j = 0; j < vertices; j++)
+            cin >> graph[i][j];
+
+    int start;
+    cout << "enter start vertex: ";
+    cin >> start;
+
+    for (int i = 0; i < vertices; i++) explored[i] = 0;
+
+    cout << "DFS: ";
+    traverse(start);
+
+    return 0;
+}
