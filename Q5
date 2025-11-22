@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int vertices;
+    cout << "enter number of vertices: ";
+    cin >> vertices;
+
+    int weights[20][20];
+    cout << "enter cost adjacency matrix (999 for no edge):\n";
+    for (int i = 0; i < vertices; i++)
+        for (int j = 0; j < vertices; j++)
+            cin >> weights[i][j];
+
+    int included[20] = {0};
+    included[0] = 1;
+
+    int edgeCount = 0, totalCost = 0;
+
+    cout << "prim MST edges:\n";
+
+    while (edgeCount < vertices - 1) {
+        int minWeight = 999, u = -1, v = -1;
+
+        for (int i = 0; i < vertices; i++) {
+            if (included[i]) {
+                for (int j = 0; j < vertices; j++) {
+                    if (!included[j] && weights[i][j] < minWeight) {
+                        minWeight = weights[i][j];
+                        u = i;
+                        v = j;
+                    }
+                }
+            }
+        }
+
+        included[v] = 1;
+        cout << u << " - " << v << "  cost: " << minWeight << endl;
+        totalCost += minWeight;
+        edgeCount++;
+    }
+
+    cout << "total cost = " << totalCost;
+    return 0;
+}
