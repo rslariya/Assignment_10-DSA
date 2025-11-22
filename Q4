@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+int findParent(int parent[], int i) {
+    if (parent[i] == i) return i;
+    return findParent(parent, parent[i]);
+}
+
+void unionSet(int parent[], int x, int y) {
+    parent[y] = x;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    int cost[20][20];
+    cout << "Enter cost adjacency matrix (999 for no edge):\n";
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> cost[i][j];
+
+    int parent[20];
+    for (int i = 0; i < n; i++) parent[i] = i;
+
+    int edges = 0, minCost = 0;
+
+    cout << "Kruskal MST edges:\n";
+
+    while (edges < n - 1) {
+        int min = 999, a = -1, b = -1;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (findParent(parent, i) != findParent(parent, j) && cost[i][j] < min) {
+                    min = cost[i][j];
+                    a = i;
+                    b = j;
+                }
+            }
+        }
+
+        unionSet(parent, findParent(parent, a), findParent(parent, b));
+        cout << a << " - " << b << "  cost: " << min << endl;
+        minCost += min;
+        edges++;
+    }
+
+    cout << "Total cost = " << minCost;
+    return 0;
+}
